@@ -1,12 +1,15 @@
 CXX = g++
-CXXFLAGS = -leak-check=full -g -std=c++17 -Wall -pedantic
+CXXFLAGS = -O3 -std=c++17 -Wall -pedantic
 INCFLAGS = -I./inc
 LDFLAGS = -lraylib
+
 EXE_DIR = bin
 OBJ_DIR = bin/obj
+SRC_DIR = src
+
 TARGET = $(EXE_DIR)/tetris
-SRCS = $(wildcard *.cpp)
-OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 run: $(TARGET)
 	./$(TARGET)
@@ -17,7 +20,7 @@ $(TARGET): $(OBJS)
 	@mkdir -p $(EXE_DIR)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) $(INCFLAGS) -c $< -o $@
 
